@@ -12,6 +12,22 @@ describe('HTTP server', () => {
     expect(response.statusCode).toEqual(404)
   })
 
+  describe('when GET /', () => {
+    it('should return 200 and hello value', async () => {
+      // Arrange
+      const server = await createServer({})
+      // Action
+      const response = await server.inject({
+        method: 'GET',
+        url: '/'
+      })
+
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(200)
+      expect(responseJson.value).toEqual('Yah, HaRoo!')
+    })
+  })
+
   it('should handle server error correctly', async () => {
     const requestPayload = {
       username: 'chloe',
