@@ -1,0 +1,6 @@
+config/database/test.json
+coverage
+node_modules
+package-lock.json
+.env
+forum-api-app-server.pem
