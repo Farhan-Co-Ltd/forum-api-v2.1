@@ -72,14 +72,13 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
 
   describe('when PUT /threads/{threadId}/comments/{commentId}/likes', () => {
     it('should response 401 when request with invalid authorization token', async () => {
+      const invalidUserAccesToken = { Authorization: 'machigaiAccess-token' }
       const server = await createServer(container)
 
       const response = await server.inject({
         method: 'PUT',
         url: `/threads/${threadId}/comments/${commentId}/likes`,
-        headers: {
-          Authorization: 'invalid-token'
-        }
+        headers: invalidUserAccesToken
       })
 
       const responseJson = JSON.parse(response.payload)
@@ -89,14 +88,13 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
     })
 
     it('should response 404 when thread is not found', async () => {
+      const userAccessToken = { Authorization: `Bearer ${globalUserAccessToken}` }
       const server = await createServer(container)
 
       const response = await server.inject({
         method: 'PUT',
-        url: `/threads/not-found-threadId/comments/${commentId}/likes`,
-        headers: {
-          Authorization: `Bearer ${globalUserAccessToken}`
-        }
+        url: `/threads/invalid-threadId/comments/${commentId}/likes`,
+        headers: userAccessToken
       })
 
       const responseJson = JSON.parse(response.payload)
@@ -106,14 +104,13 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
     })
 
     it('should response 404 when comment is not found', async () => {
+      const userAccessToken = { Authorization: `Bearer ${globalUserAccessToken}` }
       const server = await createServer(container)
 
       const response = await server.inject({
         method: 'PUT',
-        url: `/threads/${threadId}/comments/not-found-commentId/likes`,
-        headers: {
-          Authorization: `Bearer ${globalUserAccessToken}`
-        }
+        url: `/threads/${threadId}/comments/invalid-commentId/likes`,
+        headers: userAccessToken
       })
 
       const responseJson = JSON.parse(response.payload)
@@ -123,14 +120,13 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
     })
 
     it('should response 200 when like comment correctly', async () => {
+      const userAccessToken = { Authorization: `Bearer ${globalUserAccessToken}` }
       const server = await createServer(container)
 
       const response = await server.inject({
         method: 'PUT',
         url: `/threads/${threadId}/comments/${commentId}/likes`,
-        headers: {
-          Authorization: `Bearer ${globalUserAccessToken}`
-        }
+        headers: userAccessToken
       })
 
       const responseJson = JSON.parse(response.payload)
@@ -139,35 +135,31 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
     })
 
     it('should response 200 when another user like comment', async () => {
+      const requestUserPayload = { username: 'sakamata', password: 'himitsu dayo', fullname: 'Sakamata Chloe' }
       const server = await createServer(container)
 
       await server.inject({
         method: 'POST',
         url: '/users',
-        payload: {
-          username: 'sakamata',
-          password: 'superhimitsu',
-          fullname: 'Sakamata Chloe'
-        }
+        payload: requestUserPayload
       })
 
       const loginResponse = await server.inject({
         method: 'POST',
         url: '/authentications',
         payload: {
-          username: 'sakamata',
-          password: 'superhimitsu'
+          username: requestUserPayload.username,
+          password: requestUserPayload.password
         }
       })
       const { data } = JSON.parse(loginResponse.payload)
       const anotherUserToken = data.accessToken
+      const anotherUserAccessToken = { Authorization: `Bearer ${anotherUserToken}` }
 
       const response = await server.inject({
         method: 'PUT',
         url: `/threads/${threadId}/comments/${commentId}/likes`,
-        headers: {
-          Authorization: `Bearer ${anotherUserToken}`
-        }
+        headers: anotherUserAccessToken
       })
 
       const responseJson = JSON.parse(response.payload)

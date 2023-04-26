@@ -2,6 +2,7 @@ const CommentRepositoryPostgres = require('../CommentRepositoryPostgres')
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper')
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper')
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper')
+const LikeCommentTableTestHelper = require('../../../../tests/LikeCommentTableTestHelper')
 const pool = require('../../database/postgres/pool')
 const AddedComment = require('../../../Domains/comments/entities/AddedComment')
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError')
@@ -16,6 +17,7 @@ describe('CommentRepositoryPostgres', () => {
     await UsersTableTestHelper.cleanTable()
     await ThreadsTableTestHelper.cleanTable()
     await CommentsTableTestHelper.cleanTable()
+    await LikeCommentTableTestHelper.cleanTable()
   })
 
   describe('addComment function', () => {
@@ -185,18 +187,27 @@ describe('CommentRepositoryPostgres', () => {
         owner: user.id
       }
 
+      const likeComment = {
+        id: 'like_comment-2004',
+        commentId: comment.id,
+        owner: user.id,
+        date: createdAt
+      }
+
       const expectedCommentDetails = {
         id: 'comment-2004',
         username: user.username,
         date: comment.date,
         content: comment.content,
         is_delete: false,
+        like_count: 1,
         replies: []
       }
 
       await UsersTableTestHelper.addUser({ ...user })
       await ThreadsTableTestHelper.addThread({ ...thread })
       await CommentsTableTestHelper.addComment({ ...comment })
+      await LikeCommentTableTestHelper.addLikeComment({ ...likeComment })
 
       const comments = await commentRepositoryPostgres.getCommentsByThreadId(thread.id)
 
@@ -239,6 +250,7 @@ describe('CommentRepositoryPostgres', () => {
         date: updatedAt,
         content: comment.content,
         is_delete: true,
+        like_count: 0,
         replies: []
       }
 

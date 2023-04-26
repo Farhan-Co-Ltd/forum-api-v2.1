@@ -13,7 +13,9 @@ class LikeCommentHandler {
 
     await likeCommentUseCase.execute({ threadId, commentId, owner })
 
-    return { status: 'success' }
+    return {
+      status: 'success'
+    }
   }
 }
 

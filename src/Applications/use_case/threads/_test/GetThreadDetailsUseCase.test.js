@@ -21,6 +21,7 @@ describe('GetThreadDetailsUseCase', () => {
           username: 'sakamata',
           date: '2005-09-29',
           content: 'Sangat Baik',
+          likeCount: 1,
           replies: [
             {
               id: 'reply-2004',
@@ -51,7 +52,8 @@ describe('GetThreadDetailsUseCase', () => {
         username: 'sakamata',
         date: '2005-09-29',
         content: 'Sangat Baik',
-        is_delete: false
+        is_delete: false,
+        like_count: 1
       }
     ]))
     mockingReplyRepository.getRepliesByCommentId = jest.fn(() => Promise.resolve([
