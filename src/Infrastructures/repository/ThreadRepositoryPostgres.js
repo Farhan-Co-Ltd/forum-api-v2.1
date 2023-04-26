@@ -40,11 +40,13 @@ class ThreadRepositoryPostgres extends ThreadRepository {
   }
 
   async getThreadById (threadId) {
+    const threadIds = threadId.split(',')
+
     const query = {
-      text: `SELECT * FROM threads 
+      text: `SELECT threads.id, threads.title, threads.body, created_at as date, users.username FROM threads 
              LEFT JOIN users ON users.id = threads.owner 
              WHERE threads.id = ANY($1::text[])`,
-      values: [threadId]
+      values: [threadIds]
     }
 
     const { rows } = await this._pool.query(query)
