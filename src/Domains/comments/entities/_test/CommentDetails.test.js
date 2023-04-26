@@ -17,6 +17,7 @@ describe('a CommentDetails entities', () => {
       date: 2023,
       content: true,
       is_delete: 'true',
+      like_count: null,
       replies: []
     }
 
@@ -30,6 +31,7 @@ describe('a CommentDetails entities', () => {
       date: '2023-04-08',
       content: 'Sangat Baik',
       is_delete: false,
+      like_count: 2,
       replies: []
     }
 
@@ -50,6 +52,7 @@ describe('a CommentDetails entities', () => {
       date: '2022-09-28',
       content: 'Baik Sekali Dia',
       is_delete: false,
+      like_count: 2,
       replies: [
         {
           id: 'reply-2004',
