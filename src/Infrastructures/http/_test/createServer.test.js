@@ -24,7 +24,7 @@ describe('HTTP server', () => {
 
       const responseJson = JSON.parse(response.payload)
       expect(response.statusCode).toEqual(200)
-      expect(responseJson.value).toEqual('Yah, HaRoo!')
+      expect(responseJson.value).toEqual('Yah, HaRoo! Make your voice heard - give comments a like up <3')
     })
   })
 
