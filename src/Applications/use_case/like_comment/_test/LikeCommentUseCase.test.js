@@ -81,10 +81,7 @@ describe('LikeCommentUseCase', () => {
       commentId: useCasePayload.commentId,
       owner: useCasePayload.owner
     })
-    expect(mockingLikeCommentRepository.deleteLikeComment).toBeCalledWith({
-      commentId: useCasePayload.commentId,
-      owner: useCasePayload.owner
-    })
+    expect(mockingLikeCommentRepository.deleteLikeComment).toBeCalledWith(useCasePayload)
     expect(mockingLikeCommentRepository.addLikeComment).not.toBeCalled()
   })
 })

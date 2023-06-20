@@ -35,10 +35,13 @@ describe('LikeCommentRepositoryPostgres', () => {
       const fakeIdGenereator = () => '2004'
       const likeCommentRepositoryPostgres = new LikeCommentRepositoryPostgres(pool, fakeIdGenereator)
 
-      await likeCommentRepositoryPostgres.addLikeComment(newLikeComment)
+      const addedLike = await likeCommentRepositoryPostgres.addLikeComment(newLikeComment)
 
       const likeComment = await LikeCommentTableTestHelper.findLikeCommentById('like_comment-2004')
       expect(likeComment).toHaveLength(1)
+      expect(likeComment[0].id).toBe(addedLike.id)
+      expect(likeComment[0].comment_id).toBe(newLikeComment.commentId)
+      expect(likeComment[0].owner).toBe(newLikeComment.owner)
     })
   })
 

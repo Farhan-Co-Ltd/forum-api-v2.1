@@ -25,6 +25,8 @@ jobs:
         npm install
         npm run migrate up
         npm run test
+    - name: ESLint
+      run: npm run lint
       env:
         CI: true
         PGHOST_TEST: ${{ secrets.PGHOST_TEST }}
