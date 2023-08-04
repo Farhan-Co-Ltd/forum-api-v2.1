@@ -14,7 +14,7 @@ class LikeCommentUseCase {
     const isAvailableLikeComment = await this._likeCommentRepository.checkAvailabilityLikeComment({ commentId, owner })
 
     if (isAvailableLikeComment) {
-      await this._likeCommentRepository.deleteLikeComment({ commentId, owner })
+      await this._likeCommentRepository.deleteLikeComment(useCasePayload)
     } else {
       await this._likeCommentRepository.addLikeComment({ commentId, owner })
     }

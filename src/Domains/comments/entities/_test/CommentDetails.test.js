@@ -43,6 +43,7 @@ describe('a CommentDetails entities', () => {
     expect(commentDetails.date).toEqual(payload.date)
     expect(commentDetails.content).toEqual(payload.content)
     expect(commentDetails.replies).toEqual([])
+    expect(commentDetails.likeCount).toEqual(payload.like_count)
   })
 
   it('should create CommentDetails object correctly', () => {
@@ -71,6 +72,7 @@ describe('a CommentDetails entities', () => {
     expect(commentDetails.date).toEqual(payload.date)
     expect(commentDetails.content).toEqual(payload.content)
     expect(commentDetails.replies).toEqual(payload.replies)
+    expect(commentDetails.likeCount).toEqual(payload.like_count)
   })
 
   it('should create CommentDetails object correctly without replies value when content has been deleted', () => {

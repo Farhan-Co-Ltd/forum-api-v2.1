@@ -30,10 +30,7 @@ class LikeCommentRepositoryPostgres extends LikeCommentRepository {
 
     const { rowCount } = await this._pool.query(query)
 
-    if (rowCount) {
-      return true
-    }
-    return false
+    return !!rowCount
   }
 
   async deleteLikeComment ({ commentId, owner }) {

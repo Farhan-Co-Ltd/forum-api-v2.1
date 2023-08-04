@@ -1,4 +1,3 @@
-const ThreadDetails = require('../../../Domains/threads/entities/ThreadDetails')
 const CommentDetails = require('../../../Domains/comments/entities/CommentDetails')
 const ReplyDetails = require('../../../Domains/replies/entities/ReplyDetails')
 
@@ -24,7 +23,7 @@ class GetThreadDetailsUseCase {
       return new CommentDetails(comment)
     }))
 
-    return new ThreadDetails(threadDetails)
+    return threadDetails
   }
 }
 
